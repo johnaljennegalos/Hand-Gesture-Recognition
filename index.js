@@ -48,17 +48,49 @@ function gotPrediction (predictions) {
 
         const handLabel = hand.label
 
+        drawLines(landmarks, ctx)
+
         for(let i = 0; i < landmarks.length; i++) {
             const [x, y, z] = landmarks[i]
             ctx.beginPath()
             ctx.arc(x, y, 5, 0, 2 * Math.PI)
-            ctx.fillStyle = 'black'
+            ctx.fillStyle = 'green'
             ctx.fill()
         }
 
         const fingerCount = countFingers(landmarks, handLabel)
 
         updateFeedback(fingerCount)
+    }
+}
+
+function drawLines(landmarks){
+    const connections = [
+        [0, 1, 2, 3, 4],
+        [0, 5, 6, 7, 8],
+        [9, 10, 11, 12],
+        [13, 14, 15, 16],
+        [0, 17, 18, 19, 20],
+        [5, 9, 13, 17]
+    ];
+
+    ctx.strokeStyle = 'blue'
+    ctx.lineWidth = 3
+
+    for(const path of connections){
+        const startX = landmarks[path[0]][0]
+        const startY = landmarks[path[0]][1]
+
+        ctx.moveTo(startX, startY)
+
+        for (let i = 1; i < path.length; i++) {
+            const nextX = landmarks[path[i]][0]
+            const nextY = landmarks[path[i]][1]
+
+            ctx.lineTo(nextX, nextY)
+        }
+
+        ctx.stroke()
     }
 }
 
