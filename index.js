@@ -21,6 +21,10 @@ async function cameraAccess(constraints) {
 async function init(){
     await cameraAccess({video:true})
     console.log("Camera Started")
+
+    // canvasEl.width = 640;
+    // canvasEl.height = 480;
+
     loadHandposeModel()
 }
 
@@ -28,13 +32,11 @@ async function loadHandposeModel(){
     handposeModel = await ml5.handpose(videoEl)
 
     console.log("Model Ready")
-    handposeModel.play()
+    // handposeModel.play()
     handposeModel.on('predict', gotPrediction)
 }
 
 const ctx = canvasEl.getContext('2d')
-canvasEl.width = videoEl.videoWidth
-canvasEl.height = videoEl.videoHeight
 
 function gotPrediction (predictions) {
     ctx.clearRect(0, 0, canvasEl.width, canvasEl.height)
@@ -56,7 +58,7 @@ function gotPrediction (predictions) {
 
         const fingerCount = countFingers(landmarks, handLabel)
 
-
+        updateFeedback(fingerCount)
     }
 }
 
@@ -95,6 +97,21 @@ function countFingers(landmarks, handLabel) {
     return fingerCount
 }
 
+let lastSpokenCount = -1
+const synth = window.speechSynthesis
 
+function updateFeedback(currentCount){
+    gestureEl.textContent = `${currentCount} fingers detected!`
+
+    if(currentCount !== lastSpokenCount && !synth.speaking){
+        const utterance = new SpeechSynthesisUtterance(currentCount.toString())
+
+        utterance.rate = 1.2
+
+        synth.speak(utterance)
+
+        lastSpokenCount = currentCount
+    }
+}
 
 init()
