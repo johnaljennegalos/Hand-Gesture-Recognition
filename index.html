@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/ml5@1/dist/ml5.js"></script>
+    <title>Hand Gesture Recognition</title>
+</head>
+<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen">
+    <h1 class="text-3xl font-bold mb-4">
+        Hand Gesture Recognition
+    </h1>
+
+    <video id="video" height="480" width="640" class="border-blue-400 border-2 rounded-lg"></video>
+
+    <canvas id="canvas" class="absolute" width="640" height="480"></canvas>
+
+    <p class="mt-4 text-xl">
+        Gesture: <span id="gesture" class="font-semibold text-blue-300">None</span>
+    </p>
+
+    <script src="index.js"></script>
+</body>
+</html>
