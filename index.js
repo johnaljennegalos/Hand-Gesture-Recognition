@@ -9,6 +9,8 @@ let handposeModel;
 async function cameraAccess(constraints) {
     let access = null
 
+    console.log(constraints)
+
     try{
         access =  await navigator.mediaDevices.getUserMedia(constraints)
     } catch (error) {
